@@ -1,0 +1,877 @@
+<!-- START OF CHART ONE -->
+
+<head>
+<title>Chart #1</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div style="margin:0 auto;">
+
+
+<div style="font-size: 19;">
+  <div style="font-family: sans-serif"><center>Gabriel Viloria - ICS 484 Project 1</center></div>
+  <div><center>Email : gviloria@hawaii.edu</center></div>
+  <br>
+  <h><center>The data used to create the graphs below was created and compiled by Robin Wilson (robin@rtwilson.com, www.rtwilson.com/academic) - Jan	2011.</center></h>
+</div>
+
+
+
+<div id="graph" style="padding-top: 100px;">
+</div>
+<p style="position: relative; bottom: 100px;"><center>The table above displays the number of attacks and deaths on their respective dates. The total attacks and deaths
+  on that particular day are added up for the 'Total' column.</center></p>
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/codebeautify.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var length = cellValues[1].length;
+  var total = [];
+  for (i = 0; i < length; i++){
+    var sum = parseInt(cellValues[1][i]) + parseInt(cellValues[2][i]);
+    total.push(sum);
+  }
+  cellValues.push(total);
+  headerValues[headerNames.length] = "Total";
+
+
+var data = [{
+  type: 'table',
+  columnwidth: [10,5,5,5],
+  header: {
+    values: headerValues,
+    align: "center",
+    line: {width: 1, color: 'rgb(50, 50, 50)'},
+    fill: {color: ['rgba(18, 141, 175, 1)']},
+    font: {family: "Arial, San-serif", size: 11, color: "white"}
+  },
+  cells: {
+    values: cellValues,
+    align: ["center", "center"],
+    line: {color: "black", width: 1},
+    fill: {color: ['rgba(228, 222, 249, 0.65)','rgba(228, 222, 249, 0.65)','rgba(228, 222, 249, 0.65)','rgba(161, 201, 196, 1)']},
+    font: {family: "Arial, San-serif", size: 10, color: ["black"]}
+  }
+}]
+
+var layout = {
+  title: "London Cholera Attacks & Deaths (1854)",
+}
+
+Plotly.plot('graph', data, layout);
+});
+
+</script>
+
+
+
+<!-- END OF CHART ONE -->
+<!-- START OF CHART TWO -->
+
+
+<head>
+<title>Chart #2</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div style="width:1920px; height: auto; margin:0 auto;">
+<div id="trace1" style="padding-top: 60px;">
+</div>
+<p> <center>The line chart above displays the number of attacks and deaths on their respective dates. The total attacks and deaths
+  are represented by much more bold lines.</center> </p>
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/codebeautify.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var trace1 = {
+      x: cellValues[0],
+      y: cellValues[1],
+      marker: {
+        color: 'rgb(10, 155, 202)',
+        size: 8
+      },
+      type: 'scatter',
+      name: '# of Attacks'
+  };
+
+  var trace2 = {
+      x: cellValues[0],
+      y: cellValues[2],
+      marker: {
+        color: 'rgb(255, 66, 51)',
+        size: 8
+      },
+      type: 'scatter',
+      name: '# of Deaths'
+  };
+
+  var length = cellValues[1].length;
+  var total_attacks = [];
+  var current_attacks = 0;
+  for (i = 0; i < length; i++){
+    current_attacks += parseInt(cellValues[1][i]);
+    total_attacks.push(current_attacks);
+  }
+
+  var length = cellValues[1].length;
+  var total_deaths = [];
+  var current_deaths = 0;
+  for (i = 0; i < length; i++){
+    current_deaths += parseInt(cellValues[2][i]);
+    total_deaths.push(current_deaths);
+  }
+
+  var trace3 = {
+      x: cellValues[0],
+      y: total_attacks,
+      line: {width: 4},
+      marker: {
+        color: 'rgb(10, 155, 180)',
+        size: 8
+      },
+      type: 'scatter',
+      name: 'Total Attacks'
+  };
+
+  var trace4 = {
+      x: cellValues[0],
+      y: total_deaths,
+      line: {width: 4},
+  marker: {
+    color: 'rgb(230, 66, 51)',
+    size: 8
+  },
+      type: 'scatter',
+      name: 'Total Deaths'
+  };
+
+
+  data = [trace1,trace2,trace3,trace4];
+
+var layout = {
+  title: "London Cholera Attacks & Deaths (1854)",
+  xaxis: {
+    title: 'Date',
+  },
+  yaxis: {
+    title: 'Attacks & Deaths',
+  }
+}
+
+Plotly.plot('trace1', data, layout);
+});
+
+</script>
+
+
+<!-- END OF CHART TWO -->
+<!-- START OF CHART THREE -->
+
+<head>
+<title>Chart #3</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div style="width:1920px; margin:0 auto;">
+<div id="trace2" style="padding-top: 60px;">
+</div>
+<p style="position: relative; bottom: 120px;"> <center>The table above represents the fatalies among men and women by age group.</center> </p>
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/naplesCholeraAgeSexData.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var data = [{
+    type: 'table',
+    columnwidth: [10,10,10],
+    header: {
+      values: headerValues,
+      align: "center",
+      line: {width: 1, color: 'rgb(50, 50, 50)'},
+      fill: {color: ['rgba(18, 141, 175, 1)']},
+      font: {family: "Arial", size: 11, color: "white"}
+    },
+    cells: {
+      values: cellValues,
+      align: ["center", "center"],
+      line: {color: "black", width: 1},
+      fill: {color: ['rgba(228, 222, 249, 0.65)','rgba(228, 222, 249, 0.65)','rgba(228, 222, 249, 0.65)','rgba(161, 201, 196, 1)']},
+      font: {family: "Arial", size: 10, color: ["black"]}
+    }
+  }]
+
+var layout = {
+  title: "Naples Cholera Fatalities by Age Group (1854)",
+}
+
+Plotly.plot('trace2', data, layout);
+});
+
+</script>
+
+<!-- END OF CHART THREE -->
+<!-- START OF CHART FOUR -->
+
+<head>
+<title>Chart #4</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div style="width:1920px; margin:0 auto;">
+<div id="trace3">
+</div>
+<p style="position: relative; bottom: 30px;"><center> The bar chart above represents male fatalities from cholera by age group.</center></p>
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/naplesCholeraAgeSexData.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var data = [{
+    x: cellValues[0],
+    y: cellValues[1],
+    type: 'bar'
+  }]
+
+var layout = {
+  title: "Naples Cholera Male Fatalities by Age Group (1854)",
+  xaxis: {
+    title: 'Age Groups',
+  },
+  yaxis: {
+    title: 'Fatalities',
+  }
+}
+
+Plotly.plot('trace3', data, layout);
+});
+
+</script>
+
+<!-- END OF CHART 4 -->
+<!-- START OF CHART 5 -->
+
+<head>
+<title>Chart #5</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+<div style="width: 1920px; padding-top: 60px;" >
+<div id="trace4">
+</div>
+<p style="position: relative; bottom: 30px;"> <center>The bar chart above represents female fatalities from cholera by age group.</center></p>
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/naplesCholeraAgeSexData.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var data = [{
+    x: cellValues[0],
+    y: cellValues[2],
+    type: 'bar',
+	marker: {
+		color: 'rgb(142,124,195)',
+	}
+  }]
+
+var layout = {
+  title: "Naples Cholera Female Fatalities by Age Group (1854)",
+  xaxis: {
+    title: 'Age Groups',
+  },
+  yaxis: {
+    title: 'Fatalities',
+  }
+}
+
+Plotly.plot('trace4', data, layout);
+});
+
+</script>
+
+<!-- END OF CHART 5 -->
+<!-- START OF CHART 6 -->
+
+<head>
+<title>Chart #3</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div style="width: 1920px; padding-top: 60px;" >
+<div id="trace5">
+</div>
+<p style="position: relative; bottom: 90px;"><center>The table above represents the Male and Female population in Naples during 1851.</center></p>
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/UKcensus1851.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var length = cellValues[1].length;
+  var total = [];
+  for (i = 0; i < length; i++){
+    var sum = parseInt(cellValues[1][i]) + parseInt(cellValues[2][i]);
+    total.push(sum);
+  }
+  cellValues.push(total);
+  headerValues[headerNames.length] = "Total";
+
+  var data = [{
+    type: 'table',
+    columnwidth: [10,10,10],
+    header: {
+      values: headerValues,
+      align: "center",
+      line: {width: 1, color: 'rgb(50, 50, 50)'},
+      fill: {color: ['rgba(18, 141, 175, 1)']},
+      font: {family: "Arial", size: 11, color: "white"}
+    },
+    cells: {
+      values: cellValues,
+      align: ["center", "center"],
+      line: {color: "black", width: 1},
+      fill: {color: ['rgba(228, 222, 249, 0.65)','rgba(228, 222, 249, 0.65)','rgba(228, 222, 249, 0.65)','rgba(161, 201, 196, 1)']},
+      font: {family: "Arial", size: 10, color: ["black"]}
+    }
+  }]
+
+var layout = {
+  title: "UK Male and Female Population by Age Group (1851)",
+}
+
+Plotly.plot('trace5', data, layout);
+});
+
+</script>
+
+<!-- END OF CHART 6 -->
+<!-- START OF CHART 7 -->
+
+<head>
+<title>Chart #3</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div style="width: 1920px; padding-top: 60px;">
+<div id="trace6">
+</div>
+<p style="position: relative; bottom: 60px; left: 540px;"><center>The pie chart above represents the percentage break down of the male population for each age group in the UK during 1851.</center></p>
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/UKcensus1851.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var length = cellValues[1].length;
+  var total = [];
+  for (i = 0; i < length; i++){
+    var sum = parseInt(cellValues[1][i]) + parseInt(cellValues[2][i]);
+    total.push(sum);
+  }
+  cellValues.push(total);
+  headerValues[headerNames.length] = "Total";
+
+  var data = [{
+    type: 'pie',
+    columnwidth: [10,10,10],
+    labels: cellValues[0],
+    values: cellValues[1]
+  }]
+
+var layout = {
+  title: "Male Census Data in the UK (1851)",
+}
+
+Plotly.plot('trace6', data, layout);
+});
+
+</script>
+
+
+<!-- END OF CHART 7 -->
+<!-- START OF CHART 8 -->
+
+<head>
+<title>Chart #3</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div style="width: 1920px; padding-top: 60px;">
+<div id="trace7">
+</div>
+<p style="position: relative; bottom: 60px; left: 540px;"><center>The pie chart above represents the percentage break down of the female population for each age group in the UK during 1851.</center></p>
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/UKcensus1851.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var length = cellValues[1].length;
+  var total = [];
+  for (i = 0; i < length; i++){
+    var sum = parseInt(cellValues[1][i]) + parseInt(cellValues[2][i]);
+    total.push(sum);
+  }
+  cellValues.push(total);
+  headerValues[headerNames.length] = "Total";
+
+  var data = [{
+    type: 'pie',
+    columnwidth: [10,10,10],
+    labels: cellValues[0],
+    values: cellValues[2]
+  }]
+
+var layout = {
+  title: "Female Census Data in the UK (1851)",
+}
+
+Plotly.plot('trace7', data, layout);
+});
+
+</script>
+
+<!-- END OF CHART 8 -->
+<!-- START OF CHART 9 -->
+
+<head>
+<title>Chart #3</title>
+<script src="plotly-latest.min.js"></script>
+</head>
+<body>
+
+<div style="width: 1920px; padding-top: 60px;">
+<div id="trace8">
+</div>
+<p style="position: relative; bottom: 30px;"><center>The bar chart above represents the male population in the UK for each age group in 1851.</center></p>
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/UKcensus1851.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var length = cellValues[1].length;
+  var total = [];
+  for (i = 0; i < length; i++){
+    var sum = parseInt(cellValues[1][i]) + parseInt(cellValues[2][i]);
+    total.push(sum);
+  }
+  cellValues.push(total);
+  headerValues[headerNames.length] = "Total";
+
+  var data = [{
+    type: 'bar',
+    columnwidth: [10,10,10],
+    x: cellValues[0],
+    y: cellValues[1]
+  }]
+
+var layout = {
+  title: "UK Census - Male Population in UK (1851)",
+  xaxis: {
+    title: 'Age Groups',
+  },
+  yaxis: {
+    title: 'Population',
+  }
+}
+
+Plotly.plot('trace8', data, layout);
+});
+
+</script>
+
+
+<!-- END OF CHART 9 -->
+<!-- START OF CHART 10 -->
+
+<head>
+<title>Chart #3</title>
+<script src="plotly-latest.min.js"></script>
+</head>
+<body>
+
+<div style="width: 1920px; padding-top: 60px;">
+<div id="trace9">
+</div>
+<p style="position: relative; bottom: 30px;"><center>The bar chart above represents the female population in the UK for each age group in 1851.</center></p>
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/UKcensus1851.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var length = cellValues[1].length;
+  var total = [];
+  for (i = 0; i < length; i++){
+    var sum = parseInt(cellValues[1][i]) + parseInt(cellValues[2][i]);
+    total.push(sum);
+  }
+  cellValues.push(total);
+  headerValues[headerNames.length] = "Total";
+
+  var data = [{
+    type: 'bar',
+    columnwidth: [10,10,10],
+    x: cellValues[0],
+    y: cellValues[2],
+	marker: {
+		color: 'rgb(142,124,195)',
+	}
+  }]
+
+var layout = {
+  title: "UK Census - Female Population in UK (1851)",
+  xaxis: {
+    title: 'Age Groups',
+  },
+  yaxis: {
+    title: 'Population',
+  }
+}
+
+Plotly.plot('trace9', data, layout);
+});
+
+</script>
+
+<!-- END OF CHART 9 -->
+<!-- START OF CHART 10 -->
+
+<head>
+<title>Chart #3</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div style="width: 1920px; padding-top: 60px;">
+<div id="trace10">
+</div>
+<p style="position: relative; bottom: 30px; left: 450px;"><center>The pie chart above represents a percentage breakdown of the total male population vs female population in the UK in 1851.</center></p>
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/UKcensus1851.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var length = cellValues[1].length;
+  var total_attacks = [];
+  var current_attacks = 0;
+  for (i = 0; i < length; i++){
+    current_attacks += parseInt(cellValues[1][i]);
+    total_attacks.push(current_attacks);
+  }
+
+  var length = cellValues[1].length;
+  var total_deaths = [];
+  var current_deaths = 0;
+  for (i = 0; i < length; i++){
+    current_deaths += parseInt(cellValues[2][i]);
+    total_deaths.push(current_deaths);
+  }
+
+  var data = [{
+    type: 'pie',
+    values: [current_attacks, current_deaths],
+    labels: ['Men','Women']
+  }]
+
+var layout = {
+  title: "London Cholera - Total Affected",
+}
+
+Plotly.plot('trace10', data, layout);
+});
+
+</script>
+
+<!-- END OF CHART 10 -->
+<!-- START OF CHART 11 -->
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Quick Start - Leaflet</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+		 <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+		 <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+
+<div id="mapid" style="width: 1060px; height: 1080px; margin:0 auto; padding-top: 300px;"></div>
+<p style="position: relative;left: 650px;"><center>The markers on the map above, represent the cholera death locations.</center></p>
+</body>
+</html>
+
+<script>
+	var mymap = L.map('mapid').setView([51.514, -0.137], 17);
+
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox.streets'
+	}).addTo(mymap);
+
+	omnivore.csv('https://raw.githubusercontent.com/gviloria/london_cholera/master/choleraDeathLocations.csv').addTo(mymap);
+
+</script>
+
+

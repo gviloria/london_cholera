@@ -1,0 +1,71 @@
+<head>
+<title>Chart #3</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div id="trace1">
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/UKcensus1851.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var length = cellValues[1].length;
+  var total = [];
+  for (i = 0; i < length; i++){
+    var sum = parseInt(cellValues[1][i]) + parseInt(cellValues[2][i]);
+    total.push(sum);
+  }
+  cellValues.push(total);
+  headerValues[headerNames.length] = "Total";
+
+  var data = [{
+    type: 'table',
+    columnwidth: [10,10,10],
+    header: {
+      values: headerValues,
+      align: "center",
+      line: {width: 1, color: 'rgb(50, 50, 50)'},
+      fill: {color: ['rgba(18, 141, 175, 1)']},
+      font: {family: "Arial", size: 11, color: "white"}
+    },
+    cells: {
+      values: cellValues,
+      align: ["center", "center"],
+      line: {color: "black", width: 1},
+      fill: {color: ['rgba(228, 222, 249, 0.65)','rgba(228, 222, 249, 0.65)','rgba(228, 222, 249, 0.65)','rgba(161, 201, 196, 1)']},
+      font: {family: "Arial", size: 10, color: ["black"]}
+    }
+  }]
+
+var layout = {
+  title: "London Cholera - Attacks and Deaths",
+}
+
+Plotly.plot('trace1', data, layout);
+});
+
+</script>

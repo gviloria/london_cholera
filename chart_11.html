@@ -1,0 +1,65 @@
+<head>
+<title>Chart #3</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div id="trace1">
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/UKcensus1851.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var length = cellValues[1].length;
+  var total_attacks = [];
+  var current_attacks = 0;
+  for (i = 0; i < length; i++){
+    current_attacks += parseInt(cellValues[1][i]);
+    total_attacks.push(current_attacks);
+  }
+
+  var length = cellValues[1].length;
+  var total_deaths = [];
+  var current_deaths = 0;
+  for (i = 0; i < length; i++){
+    current_deaths += parseInt(cellValues[2][i]);
+    total_deaths.push(current_deaths);
+  }
+
+  var data = [{
+    type: 'pie',
+    values: [current_attacks, current_deaths],
+    labels: ['Men','Women']
+  }]
+
+var layout = {
+  title: "London Cholera - Total Affected",
+}
+
+Plotly.plot('trace1', data, layout);
+});
+
+</script>

@@ -1,15 +1,28 @@
 <head>
 <title>Chart #1</title>
-<body>
 <script src="plotly-latest.min.js"></script>
-</body>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
 
-<div id = "graph">
+<div style="width:800px; margin:0 auto;">
+
+  <div style="font-family: sans-serif">Gabriel Viloria - ICS 484 Project 1</div>
+<div id="graph">
 </div>
+<p> The table above displays the number of attacks and deaths on their respective dates. The total attacks and deaths
+  on that particular day are added up for the 'Total' column. </p>
+</div>
+
+</body>
 
 <script>
 
-Plotly.d3.csv("https://github.com/gviloria/london_cholera/blob/master/choleraDeaths.tsv", function(err, rows){
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/codebeautify.csv", function(err, rows){
 
   function unpack(rows, key) {
   return rows.map(function(row) { return row[key]; });
@@ -26,39 +39,43 @@ Plotly.d3.csv("https://github.com/gviloria/london_cholera/blob/master/choleraDea
     cellValues[i] = cellValue;
   }
 
-  // clean date
-  for (i = 0; i < cellValues[1].length; i++) {
-  var dateValue = cellValues[1][i].split(' ')[0]
-  cellValues[1][i] = dateValue
+  var length = cellValues[1].length;
+  var total = [];
+  for (i = 0; i < length; i++){
+    var sum = parseInt(cellValues[1][i]) + parseInt(cellValues[2][i]);
+    total.push(sum);
   }
+  cellValues.push(total);
+  headerValues[headerNames.length] = "Total";
 
-  var data = [{
+
+var data = [{
   type: 'table',
-  columnwidth: [200,500,600],
-  columnorder: [0,1,2],
+  columnwidth: [80,30,30,50],
   header: {
     values: headerValues,
     align: "center",
     line: {width: 1, color: 'rgb(50, 50, 50)'},
-    fill: {color: ['rgb(235, 100, 230)']},
-    font: {family: "Arial", size: 11, color: "white"}
+    fill: {color: ['rgba(18, 141, 175, 1)']},
+    font: {family: "Arial, San-serif", size: 11, color: "white"}
   },
   cells: {
     values: cellValues,
     align: ["center", "center"],
     line: {color: "black", width: 1},
-    fill: {color: ['rgba(228, 222, 249, 0.65)','rgb(235, 193, 238)', 'rgba(228, 222, 249, 0.65)']},
-    font: {family: "Arial", size: 10, color: ["black"]}
+    fill: {color: ['rgba(228, 222, 249, 0.65)','rgba(228, 222, 249, 0.65)','rgba(228, 222, 249, 0.65)','rgba(161, 201, 196, 1)']},
+    font: {family: "Arial, San-serif", size: 10, color: ["black"]}
   }
 }]
 
 var layout = {
-  title: "Bitcoin mining stats for 180 days"
+  title: "London Cholera - Attacks and Deaths per day",
+  height: 500,
+  width: 700,
+  font: {family: "Arial, San-serif", size: 17, color: ["black"]}
 }
 
 Plotly.plot('graph', data, layout);
 });
 
 </script>
-
-</head>

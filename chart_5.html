@@ -1,0 +1,49 @@
+<head>
+<title>Chart #5</title>
+<script src="plotly-latest.min.js"></script>
+<style>
+* {
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div id="trace1">
+</div>
+
+</body>
+
+<script>
+
+Plotly.d3.csv("https://raw.githubusercontent.com/gviloria/london_cholera/master/naplesCholeraAgeSexData.csv", function(err, rows){
+
+  function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+  }
+
+  var headerNames = Plotly.d3.keys(rows[0]);
+
+  var headerValues = [];
+  var cellValues = [];
+  for (i = 0; i < headerNames.length; i++) {
+    headerValue = [headerNames[i]];
+    headerValues[i] = headerValue;
+    cellValue = unpack(rows, headerNames[i]);
+    cellValues[i] = cellValue;
+  }
+
+  var data = [{
+    x: cellValues[0],
+    y: cellValues[2],
+    type: 'bar'
+  }]
+
+var layout = {
+  title: "London Cholera - Female Ages Affected",
+}
+
+Plotly.plot('trace1', data, layout);
+});
+
+</script>
