@@ -4,6 +4,7 @@
 <title>London Cholera Visualization</title>
 <script src="plotly-latest.min.js"></script>
 <script src="csvjson.json" type="text/javascript" async defer></script>
+<script src="pumploc.json" type="text/javascript" async defer></script>	
 <style>
 * {
     font-family: Arial;
@@ -883,6 +884,16 @@ for (let m in new_data) {
 	    fillColor: '#f03',
 	    fillOpacity: 0.5,
 	    radius: meow.deaths * 5
+	}).addTo(mymap);
+}
+	
+for (let x in data) {
+	var meow = data[x];
+	L.circle([meow.latitude, meow.longitude], {
+	    color: 'blue',
+	    fillColor: '#f03',
+	    fillOpacity: 0.5,
+	    radius: 5
 	}).addTo(mymap);
 }
 </script>
