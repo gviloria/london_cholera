@@ -3,6 +3,7 @@
 <head>
 <title>London Cholera Visualization</title>
 <script src="plotly-latest.min.js"></script>
+<script src="csvjson.json" type="text/javascript" async defer></script>
 <style>
 * {
     font-family: Arial;
@@ -864,6 +865,7 @@ Plotly.plot('trace10', data, layout);
 </html>
 
 <script src="csvjson.json" type="text/javascript" async defer></script>
+<script src="https://raw.githubusercontent.com/gviloria/london_cholera/master/csvjson.json" type="text/javascript" async defer></script>
 <script>
 var mymap = L.map('mapid').setView([51.514, -0.137], 17);
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -874,8 +876,8 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 	id: 'mapbox.streets'
 }).addTo(mymap);
 
-for (let x in new_data) {
-	var meow = new_data[x];
+for (let m in new_data) {
+	var meow = new_data[m];
 	L.circle([meow.latitude, meow.longitude], {
 	    color: 'red',
 	    fillColor: '#f03',
