@@ -877,13 +877,13 @@ Plotly.plot('trace10', data, layout);
 
 	
 	for (let x in data) {
-    var meow = data[x];
-    L.circle([meow.latitude, meow.longitude], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: meow.deaths * 5
-    }).addTo(mymap);
+   	 var meow = data[x];
+    	 L.circle([meow.latitude, meow.longitude], {
+         color: 'red',
+         fillColor: '#f03',
+         fillOpacity: 0.5,
+         radius: meow.deaths * 5
+        }).addTo(mymap);
 }
   
 
