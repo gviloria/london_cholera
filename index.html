@@ -863,6 +863,7 @@ Plotly.plot('trace10', data, layout);
 </body>
 </html>
 
+<script src="csvjson.json"></script>
 <script>
 	var mymap = L.map('mapid').setView([51.514, -0.137], 17);
 
@@ -874,7 +875,17 @@ Plotly.plot('trace10', data, layout);
 		id: 'mapbox.streets'
 	}).addTo(mymap);
 
-	omnivore.csv('https://raw.githubusercontent.com/gviloria/london_cholera/master/choleraDeathLocations.csv').addTo(mymap);
+	
+	for (let x in data) {
+    var meow = data[x];
+    L.circle([meow.latitude, meow.longitude], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: meow.deaths * 5
+    }).addTo(mymap);
+}
+  
 
 </script>
 
