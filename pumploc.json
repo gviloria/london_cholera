@@ -1,4 +1,4 @@
-var data = [
+var pump_data = [
   {
     "longitude": -0.136668,
     "latitude": 51.513341
