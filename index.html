@@ -878,7 +878,7 @@ Plotly.plot('trace10', data, layout);
 	
 	for (let x in new_data) {
    	 var meow = new_data[x];
-    	 L.circle([meow.latitude, meow.longitude], {
+    	 L.circle([meow.longitude, meow.latitude], {
          color: 'red',
          fillColor: '#f03',
          fillOpacity: 0.5,
