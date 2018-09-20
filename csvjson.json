@@ -1,4 +1,4 @@
-var data = [
+var new_data = [
   {
     "deaths": 3,
     "longitude": -0.13793,
